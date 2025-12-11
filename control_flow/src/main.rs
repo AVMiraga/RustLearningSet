@@ -108,7 +108,6 @@ fn main() {
 
     // END LOOP BLOCK
 
-    // TASKS:
     // 1. Write a program that converts between Fahrenheit and Celsius.
 
     const NINE_DIV_FIVE: f32 = 9.0 / 5.0;
