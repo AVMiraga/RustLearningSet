@@ -32,11 +32,11 @@ mod my_module {
     pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
         let mut output: Vec<String> = vec![];
         input
-            .iter()
+            .into_iter()
             .map(|(word, cmd)| match cmd {
                 Command::Uppercase => word.to_uppercase(),
                 Command::Trim => word.trim().to_string(),
-                Command::Append(count) => word.to_owned() + &"bar".repeat(*count),
+                Command::Append(count) => word.to_owned() + &"bar".repeat(count),
             })
             .for_each(|word| {
                 output.push(word);
