@@ -28,6 +28,5 @@ fn main() -> Result<(), ParseIntError> {
         tokens -= cost;
         println!("You now have {tokens} tokens.");
     }
-
     Ok(())
 }

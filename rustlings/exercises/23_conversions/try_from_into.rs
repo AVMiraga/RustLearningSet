@@ -31,13 +31,15 @@ impl TryFrom<(i16, i16, i16)> for Color {
     fn try_from(tuple: (i16, i16, i16)) -> Result<Self, Self::Error> {
         let (r, g, b) = tuple;
 
-        let (red, green, blue) = (
-            u8::try_from(r).or(Err(IntoColorError::IntConversion))?,
-            u8::try_from(g).or(Err(IntoColorError::IntConversion))?,
-            u8::try_from(b).or(Err(IntoColorError::IntConversion))?,
-        );
-
-        Ok(Color { red, green, blue })
+        if (0..=255).contains(&r) && (0..=255).contains(&g) && (0..=255).contains(&b) {
+            Ok(Self {
+                red: r as u8,
+                green: g as u8,
+                blue: b as u8,
+            })
+        } else {
+            Err(IntoColorError::IntConversion)
+        }
     }
 }
 
@@ -46,9 +48,16 @@ impl TryFrom<[i16; 3]> for Color {
     type Error = IntoColorError;
 
     fn try_from(arr: [i16; 3]) -> Result<Self, Self::Error> {
-        let [red, green, blue] = arr;
-
-        Color::try_from((red, green, blue))
+        for color in arr.iter() {
+            if !(0..=255).contains(color) {
+                return Err(IntoColorError::IntConversion);
+            }
+        }
+        Ok(Self {
+            red: arr[0] as u8,
+            green: arr[1] as u8,
+            blue: arr[2] as u8,
+        })
     }
 }
 
@@ -58,9 +67,18 @@ impl TryFrom<&[i16]> for Color {
     type Error = IntoColorError;
 
     fn try_from(slice: &[i16]) -> Result<Self, Self::Error> {
-        match slice {
-            [r, g, b] => Color::try_from((*r, *g, *b)),
-            _ => Err(IntoColorError::BadLen),
+        if slice.len() != 3 {
+            return Err(IntoColorError::BadLen);
+        }
+        let [r, g, b] = [slice[0], slice[1], slice[2]];
+        if (0..=255).contains(&r) && (0..=255).contains(&g) && (0..=255).contains(&b) {
+            Ok(Self {
+                red: r as u8,
+                green: g as u8,
+                blue: b as u8,
+            })
+        } else {
+            Err(IntoColorError::IntConversion)
         }
     }
 }

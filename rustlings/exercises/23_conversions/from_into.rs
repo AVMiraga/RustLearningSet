@@ -35,24 +35,23 @@ impl Default for Person {
 // 6. If parsing the age fails, return the default of `Person`.
 impl From<&str> for Person {
     fn from(s: &str) -> Self {
-        let mut s_iter = s.split(",");
-        let s_iter_count = s_iter.clone().count();
+        let mut iter_s = s.split(",");
 
-        if s_iter_count != 2 {
-            Person::default()
-        } else {
-            let name = match s_iter.next() {
-                Some("") | None => return Person::default(),
-                Some(e) => String::from(e),
-            };
-            let age = match s_iter.next() {
-                Some(x) => match x.parse::<u8>() {
-                    Ok(x) => x,
-                    Err(_) => return Person::default(),
-                },
-                None => return Person::default(),
-            };
-            Person { name, age }
+        let (Some(name), Some(age), None) = (iter_s.next(), iter_s.next(), iter_s.next()) else {
+            return Self::default();
+        };
+
+        if name.is_empty() {
+            return Self::default();
+        };
+
+        let Ok(age) = age.parse::<u8>() else {
+            return Self::default();
+        };
+
+        Self {
+            name: name.into(),
+            age,
         }
     }
 }

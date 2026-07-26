@@ -42,37 +42,22 @@ impl FromStr for Person {
     type Err = ParsePersonError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let mut iter_s = s.split(',');
-        let iter_s_count = iter_s.clone().count();
+        let mut iter_s = s.split(",");
 
-        if iter_s_count < 2 {
-            Err(ParsePersonError::BadLen)
-        } else {
-            let name = match iter_s.next() {
-                None => return Err(ParsePersonError::BadLen),
-                Some(e) => {
-                    if e.is_empty() {
-                        return Err(ParsePersonError::NoName);
-                    } else {
-                        Ok(e.to_string())
-                    }
-                }
-            };
+        let (Some(name), Some(age), None) = (iter_s.next(), iter_s.next(), iter_s.next()) else {
+            return Err(ParsePersonError::BadLen);
+        };
 
-            let age = match iter_s.next() {
-                None => return Err(ParsePersonError::BadLen),
-                Some(e) => match e.parse::<u8>() {
-                    Err(e) => return Err(ParsePersonError::ParseInt(e)),
-                    Ok(age) => age,
-                },
-            };
-
-            if iter_s.next().is_some() {
-                Err(ParsePersonError::BadLen)
-            } else {
-                Ok(Person { name: name?, age })
-            }
+        if name.is_empty() {
+            return Err(ParsePersonError::NoName);
         }
+
+        let age: u8 = age.parse().map_err(ParsePersonError::ParseInt)?;
+
+        Ok(Self {
+            name: name.into(),
+            age,
+        })
     }
 }
 

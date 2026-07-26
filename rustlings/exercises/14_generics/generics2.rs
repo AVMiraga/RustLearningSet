@@ -8,7 +8,7 @@ struct Wrapper<T> {
 impl<T> Wrapper<T> {
     fn new(value: T) -> Self {
         Wrapper { value }
-    } // Wrapper can be replaced with Self
+    }
 }
 
 fn main() {

@@ -6,7 +6,6 @@ fn trim_me(input: &str) -> &str {
 fn compose_me(input: &str) -> String {
     // TODO: Add " world!" to the string! There are multiple ways to do this.
     format!("{} world!", input)
-    // (&input[..]).to_owned() + " world!"
 }
 
 fn replace_me(input: &str) -> String {

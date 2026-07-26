@@ -19,8 +19,8 @@ fn char_counter<T: AsRef<str>>(arg: T) -> usize {
 // TODO: Add the appropriate trait bound.
 fn num_sq<T: AsMut<u32>>(arg: &mut T) {
     // TODO: Implement the function body.
-    let val = arg.as_mut();
-    *val *= *val;
+    let m = arg.as_mut();
+    *m = m.pow(2);
 }
 
 fn main() {

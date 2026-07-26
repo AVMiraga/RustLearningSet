@@ -7,8 +7,11 @@ fn main() {
     let my_option: Option<&str> = None;
     // Assume that you don't know the value of `my_option`.
     // In the case of `Some`, we want to print its value.
-    if let Some(opt) = my_option {
-        println!("{}", opt);
+    // if my_option.is_some() {
+    //     println!("{}", my_option.unwrap());
+    // }
+    if let Some(x) = my_option {
+        println!("{x}");
     }
 
     let my_arr = &[
@@ -17,13 +20,16 @@ fn main() {
     ];
     println!("My array! Here it is: {my_arr:?}");
 
-    let mut my_empty_vec = vec![1, 2, 3, 4, 5];
-    my_empty_vec.clear();
+    // let my_empty_vec = vec![1, 2, 3, 4, 5].resize(0, 5);
+    let my_empty_vec = ();
     println!("This Vec is empty, see? {my_empty_vec:?}");
 
     let mut value_a = 45;
     let mut value_b = 66;
     // Let's swap these two!
+    // value_a = value_b;
+    // value_b = value_a;
     std::mem::swap(&mut value_a, &mut value_b);
+
     println!("value a: {value_a}; value b: {value_b}");
 }

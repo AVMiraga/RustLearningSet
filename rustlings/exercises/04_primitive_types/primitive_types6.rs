@@ -13,7 +13,6 @@ mod tests {
         // let second = ???;
 
         let second = numbers.1;
-
         assert_eq!(second, 2, "This is not the 2nd number in the tuple!");
     }
 }

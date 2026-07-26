@@ -28,21 +28,15 @@ mod my_module {
 
     // TODO: Complete the function as described above.
     // pub fn transformer(input: ???) -> ??? { ??? }
-
     pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
-        let mut output: Vec<String> = vec![];
         input
             .into_iter()
-            .map(|(word, cmd)| match cmd {
-                Command::Uppercase => word.to_uppercase(),
-                Command::Trim => word.trim().to_string(),
-                Command::Append(count) => word.to_owned() + &"bar".repeat(count),
+            .map(|(string, cmd)| match cmd {
+                Command::Uppercase => string.to_uppercase(),
+                Command::Trim => string.trim().to_string(),
+                Command::Append(times) => string + &"bar".repeat(times),
             })
-            .for_each(|word| {
-                output.push(word);
-            });
-
-        output
+            .collect()
     }
 }
 
